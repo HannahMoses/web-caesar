@@ -18,16 +18,24 @@ import webapp2
 import caesar
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        rotation_label = "<label style='color:rgb(198,12,100)'> Rotate by : </label>"
         rotation_input = "<input type ='number' name='rotation'/>"
+        message_label = "<label style='color:rgb(198,12,100)'> Please enter a message : </label>"
 #What we are saying,name='message', is that, when this form gets submitted,I
 #want the "HTTP   request, that is about to be sent out", to have a
 #KEY VALUE pair, where the keyname is message and the value is, the content
 # that is typed into this textarea
         textarea = "<textarea name ='message'></textarea>"
         submit = "<input  type ='submit'/>"
-        form = "<form method ='post'>"+ rotation_input + textarea + "<br><br>"+submit +"</form>"
-        self.response.write(form)
-
+        form = ("<form style='background-color:rgb(240,200,255)' method ='post'>"+
+                rotation_label + rotation_input +"<br><br>" +
+                message_label + textarea + "<br><br>"+
+                submit +
+                "</form>")
+        header = "<h2 style='color:rgb(198,12,100);background-color:rgb(240,200,255)'> Web Caesar</h2><br>"
+#        body = "<body style="background-color:powderblue;"></body>"
+#        self.response.write(header + body+form)
+        self.response.write(header + form)
     def post(self):
         #To access the request from user that is coming
         # in from textarea when user hits submit button
