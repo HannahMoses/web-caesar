@@ -16,6 +16,7 @@
 #
 import webapp2
 import caesar
+import cgi #Common Gateway Interface is apretty old library in web back-end operations
 def build_page(textarea_content):
     rotation_label = "<label style='color:rgb(198,12,100)'> Rotate by : </label>"
     rotation_input = "<input type ='number' name='rotation'/>"
@@ -32,7 +33,9 @@ def build_page(textarea_content):
             submit +
             "</form>")
     header = "<h2 style='color:rgb(198,12,100);background-color:rgb(240,200,255)'> Web Caesar</h2><br>"
-    return header + form
+    body = "<body style= 'background-color:rgb(200,200,255)'>WELCOME TO WEB CAESAR <br>You can now generate a secret <br>message, by entering a number,<br>by  which , each  alphabet in  your<br>text, will be rotated.  VOILA !!!</body>"+"<br>"
+    return header + body + form
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         content = build_page("")#parameter is empty strng since user has entered nothing right now
@@ -43,7 +46,8 @@ class MainHandler(webapp2.RequestHandler):
         message = self.request.get("message")
         rotation = int(self.request.get("rotation"))
         encrypted_message = caesar.encrypt(message,rotation)
-        content = build_page(encrypted_message)
+        escaped_message = cgi.escape(encrypted_message)
+        content = build_page(escaped_message)
         self.response.write(content)
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
