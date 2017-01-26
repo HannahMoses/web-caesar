@@ -18,15 +18,22 @@ import webapp2
 import caesar
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-#        message = 'Hellooooooo !'
-#        encrypted_message = caesar.encrypt(message,13)
-        textarea = "<textarea></textarea>"
+#What we are saying,name='message', is that, when this form gets submitted,I
+#want the "HTTP   request, that is about to be sent out", to have a
+#KEY VALUE pair, where the keyname is message and the value is, the content
+# that is typed into this textarea
+        textarea = "<textarea name ='message'></textarea>"
         submit = "<input  type ='submit'/>"
         form = "<form method ='post'>"+ textarea + "<br><br>"+submit +"</form>"
         self.response.write(form)
 
     def post(self):
-        self.response.out.write("Thankyou for visiting my website !")
+        #To access the request from user that is coming
+        # in from textarea when user hits submit button
+        message = self.request.get("message")
+#        message = "Hello"
+        encrypted_message = caesar.encrypt(message,13)
+        self.response.out.write("Secret message" + encrypted_message)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
